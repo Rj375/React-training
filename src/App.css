@@ -36,3 +36,73 @@
     transform: rotate(360deg);
   }
 }
+
+
+.form{
+  margin: auto;
+  padding: 20px;
+  width: 20%;
+  height: 80%;
+  font-weight: bold;
+  color: green;
+}
+
+.inputs{
+  margin: 10px;
+  color: red;
+ 
+}
+
+.btn{
+  color: #fff;
+  background: blue;
+  padding: 8px 15px;
+
+}
+
+.btn:hover {
+  color: black;
+  background: transparent;
+  cursor: pointer;
+}
+
+table , th, td {
+  border: green 1px solid;
+  border-collapse: collapse;
+  margin: auto;
+  
+}
+
+th, td{
+  padding: 10px;
+}
+.body{
+  width: 50%;
+  margin: auto;
+  min-height: 50%;
+  
+  
+  
+}
+
+.body  h3{
+  margin: auto;
+  
+}
+
+.body ul li h3{
+  text-align: justify; /* For Edge */
+  -moz-text-align-last: center; /* For Firefox prior 58.0 */
+  text-align-last: center;
+}
+
+.spans{
+  margin-left: 15px;
+  color: red;
+  cursor: pointer;
+}
+
+.spans:hover{
+  border: red 1px solid;
+  font-weight: bold;
+}
