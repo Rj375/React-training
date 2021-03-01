@@ -11,10 +11,19 @@ export default class Body extends Component {
             products: []
         }
         // this.deleteItems=this.deleteItems.bind(this)
+        console.log('intializing');
+
     }
 
 
-
+    // static getDerivedStateFromProps(props, state) {
+    //     console.log('this is props');
+    //     console.log('this is state');
+    //     if(props.products){
+    //         return 
+    //     }
+    //     return null
+    // } 
 
     componentDidMount() {
         setTimeout(() => {

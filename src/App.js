@@ -4,6 +4,8 @@ import Nav from "./Nav";
 import Table from "./Table";
 import Form from "./Form";
 import Body from "./Body";
+import Inputs from "./Inputs";
+import Productslist from "./Productslist";
 
 
 function App() {
@@ -35,10 +37,10 @@ function App() {
       <div className="App">
         {/* <Nav text="Hello iam navbar(props)" />
         <hr/> */}
-        <Body/>
-        {/* <Form />
+        {/* <Body/> */}
+         {/* <Form /> */}
         
-        <hr />
+        {/* <hr />
 
         <span>Let us suppose a=20 and b=5</span>
         <p>{results}</p>
@@ -46,18 +48,25 @@ function App() {
         <span>Let us suppose x=10 and y=5</span> <br/>
         <span>If x greater than y || x is not equal to y : <strong>{text}</strong></span>
         <br/>
-        <span>If x Equals to y : <strong>{text1}</strong></span>
+        <span>If x Equals to y : <strong>{text1}</strong></span> */}
         
 
         
 
-        <hr />
+        {/* <hr /> */}
       
       <Table />
-        */}
-
+       
+        {/* <Productslist /> */}
+<hr/>
+        <Inputs />
       </div>
     );
 }
+
+
+
+
+
 
 export default App;
