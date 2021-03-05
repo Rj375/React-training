@@ -6,9 +6,12 @@ import Form from "./Form";
 import Body from "./Body";
 import Inputs from "./Inputs";
 import Productslist from "./Productslist";
+import Futable from "./Futable";
+import {axios} from 'axios'
+import Apidata from './Apidata'
 
 
-function App() {
+const App = () => {
 
 //   var a = 20;
 //   var b = 5;
@@ -33,6 +36,27 @@ function App() {
 
 
 
+  
+  
+// const axios = require('axios');
+//   var showApi = () =>{
+//      return axios.get(`http://fruitmap.org/api/trees`, {
+//       method: 'GET',
+//       mode: 'no-cors',
+//       // headers: {
+//       //   // "Content-Type": "application/json",
+//       //   // "Authorization": "Bearer " + token,
+//       //   // "Access-Control-Allow-Methods": "GET",
+//       //   "Access-Control-Allow-Origin": "*",
+//       // }
+      
+//      })
+//      .then((res)  => {
+//        console.log(res)
+//      } 
+//      )
+//   }
+
     return (
       <div className="App">
         {/* <Nav text="Hello iam navbar(props)" />
@@ -56,10 +80,16 @@ function App() {
         {/* <hr /> */}
       
       <Table />
-       
+ <hr/><br/>
+      {/* <Futable />      */}
         {/* <Productslist /> */}
-<hr/>
-        <Inputs />
+{/* <hr/> */}
+        {/* <Inputs /> */}
+        {/* <button onClick={showApi}>Show Data</button> */}
+
+
+
+        <Apidata />
       </div>
     );
 }
