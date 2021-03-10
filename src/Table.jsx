@@ -2,13 +2,17 @@ import './App.css';
 
 import React, { Component } from 'react'
 import { element } from 'prop-types';
-import { TextBox, DataGrid, GridColumn, ComboBox, LinkButton, NumberBox } from 'rc-easyui';
+import { TextBox, DataGrid, GridColumn, ComboBox, LinkButton, NumberBox, ButtonGroup, Form, Dialog, Label } from 'rc-easyui';
 
 
 export default class Table extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      editingRow: "",
+      title: '',
+      closed: true,
+      model: {},
       form: {
         // id: "",
         name: 1,
@@ -44,7 +48,7 @@ export default class Table extends Component {
     return [
       { value: 1, text: "Apple" },
       { value: 2, text: "Orange" },
-      { value: 3, text: "Grapes" },
+      { value: 3, text: "Banana" },
       { value: 4, text: "Tomato" },
       { value: 5, text: "Potato" },
       { value: 6, text: "Beans" },
@@ -63,10 +67,15 @@ export default class Table extends Component {
   }
 
 
-
-  componentDidMount() {
+  componentDidMount = () => {
+  
     this.nameRef.current.focus()
+   
+    
+
+
   }
+
 
   //  componentDidMount () {
   //    setTimeout(() => {
@@ -95,8 +104,42 @@ export default class Table extends Component {
   //     this.formRef.current.focus();
   // }
 
+  saveRow = () => {
+    var { form } = this.state
+
+    this.form.validate(() => {
+      if (this.form.valid()) {
+        let row = Object.assign({}, this.state.editingRow, this.state.model);
+        let rows = this.state.rows.slice();
+        let index = rows.indexOf(this.state.editingRow);
+        row.amount = row.quantity * row.rate;
+        rows.splice(index, 1, row);
+        this.setState({
+          amount: row.amount,
+          rows: [...rows],
+          closed: true
+
+        })
+        console.log(...rows)
+
+      }
+    })
+  }
+
+  editRow = (row) => {
+    this.setState({
+      editingRow: row,
+      model: Object.assign({}, row),
+      title: 'Edit',
+      closed: false
+    });
+  }
+
+
+
   handleChange = (name, value) => {
     var { form } = this.state
+
     form[name] = value
     form.amount = form.rate * form.quantity
     this.setState({
@@ -106,6 +149,53 @@ export default class Table extends Component {
     })
 
   }
+
+
+
+
+  renderDialog = () => {
+    const row = this.state.model;
+    const { title, closed, rules } = this.state;
+    return (
+      <Dialog modal title={title} closed={closed} onClose={() => this.setState({ closed: true })}>
+        <div className="f-full" style={{ padding: '20px 50px' }}>
+          <Form className="f-full"
+            ref={ref => this.form = ref}
+            model={row}
+            rules={rules}
+
+          >
+            <div style={{ marginBottom: 10 }}>
+              <Label htmlFor="unit">Name:</Label>
+              <ComboBox inputId="name" name="name" value={row.name} data={this.getName()} style={{ width: 220 }}></ComboBox>
+
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <Label htmlFor="unit">Unit:</Label>
+              <ComboBox inputId="unit" name="unit" value={row.unit} data={this.getUnit()} style={{ width: 220 }}></ComboBox>
+
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <Label htmlFor="rate">Rate:</Label>
+              <TextBox inputId="rate" name="rate" value={row.rate} style={{ width: 220 }}></TextBox>
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <Label htmlFor="quantity">Quantity:</Label>
+              <TextBox inputId="quantity" name="quantity" value={row.quantity} style={{ width: 220 }}></TextBox>
+            </div>
+
+          </Form>
+        </div>
+        <div className="dialog-button">
+          <LinkButton style={{ width: 80 }} onClick={() => this.saveRow()}>Save</LinkButton>
+          <LinkButton style={{ width: 80 }} onClick={() => this.setState({ closed: true })}>Close</LinkButton>
+        </div>
+      </Dialog>
+    )
+  }
+
+
+ 
   //   enterKey = (event) => {
 
   //     if(event.keyCode === 13){
@@ -122,11 +212,11 @@ export default class Table extends Component {
   //  } 
   //    }
   enterUnit = (selection) => {
-    alert(selection)
-
-
+    // alert(selection)
+    console.log(selection)
     this.unitRef.current.focus()
-
+    // console.log(this.unitRef.current)
+    
   }
 
   showData = () => {
@@ -134,7 +224,7 @@ export default class Table extends Component {
     var { form, rules, rows } = this.state
     var a = form.rate
     var b = form.quantity
-
+    
 
     var newForm = {
       // id: "",
@@ -156,11 +246,15 @@ export default class Table extends Component {
     else {
       form.amount = a * b;
       rows.push(form)
+     
       this.setState({
         rows: [...rows],
+
         form: newForm
+
       })
       console.log(...rows)
+     
       this.nameRef.current.focus()
 
     }
@@ -178,8 +272,10 @@ export default class Table extends Component {
 
   deleteRow(row) {
     var { rows } = this.state
+  
     this.setState({
-      rows: rows.filter(r => r !== row)
+      rows: rows.filter(r => r !== row),
+      
     })
   }
   render() {
@@ -194,8 +290,6 @@ export default class Table extends Component {
     // //  this.myRef.current.focus();
 
     // }
-
-
 
     var txt = "Informations"
 
@@ -262,12 +356,11 @@ export default class Table extends Component {
 
 
 
-
         {/* <TextBox ref={this.idRef} value={form.id} className="inputs" onChange={(e) => this.handleChange("id",e)} /> */}
-        <ComboBox value={form.name} ref={this.nameRef} className="inputs" onselectionChange={(e) => this.enterUnit(e)} data={getname} onChange={(e) => this.handleChange("name", e)} />
+        <ComboBox value={form.name} ref={this.nameRef} className="inputs" onSelectionChange={this.enterUnit} data={getname} onChange={(e) => this.handleChange("name", e)} />
         <ComboBox value={form.unit} ref={this.unitRef} className="inputs" data={getunit} onChange={(e) => this.handleChange("unit", e)} />
         {/* <NumberBox value={form.rate} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} /> */}
-        <TextBox value={form.rate} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} />
+        <TextBox value={form.rate} ref={this.rateRef} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} />
         <TextBox value={form.quantity} placeholder="Quantity" className="inputs" onChange={(e) => this.handleChange("quantity", e)} />
         {/* <NumberBox value={form.quantity} placeholder="Quantity" className="inputs" onChange={(e) => this.handleChange("quantity", e)} /> */}
         <NumberBox value={form.amount} placeholder="Total Amount" readOnly spinners={false} className="inputs" onChange={(e) => this.handleChange("amount", e)} />
@@ -318,15 +411,18 @@ export default class Table extends Component {
             render={({ row }) => (
               <div>
 
-
-                <LinkButton onClick={() => this.deleteRow(row)}>Delete</LinkButton>
-
+                <ButtonGroup>
+                  <LinkButton onClick={() => this.editRow(row)}>Edit</LinkButton>
+                  <LinkButton onClick={() => this.deleteRow(row)}>Delete</LinkButton>
+                </ButtonGroup>
               </div>
             )}
           />
 
         </DataGrid>
+        {this.renderDialog()}
 
+      
       </div>
 
 

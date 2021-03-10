@@ -115,3 +115,25 @@ th, td{
   border: red 1px solid;
   font-weight: bold;
 }
+
+.Nav {
+  background: transparent;
+  border: 1px skyblue solid;
+  font-weight: bold;
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  justify-content: space-around;
+  
+
+
+}
+
+.Nav li{
+  list-style: none;
+  color: black;
+  text-decoration: none;
+  letter-spacing: 3px;
+  
+  
+}
