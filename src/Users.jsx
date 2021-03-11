@@ -130,7 +130,7 @@ class Users extends React.Component {
                 rows.push(user)
                 var json = JSON.stringify(rows)
                 localStorage.setItem('user', json)
-                users.push(json)
+                // users.push(json)
                 users = JSON.parse(localStorage.getItem('user'))
                 this.setState({
                     // rows: [...json],
