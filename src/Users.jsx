@@ -17,7 +17,7 @@ class Users extends React.Component {
             },
 
             rows: [],
-            users: [],
+            // users: [],
           
 
 
@@ -40,12 +40,13 @@ class Users extends React.Component {
     componentDidMount = () => {
         var { users, rows } = this.state
 
-
-         users = JSON.parse(localStorage.getItem('user'))
+        
+        rows = JSON.parse(localStorage.getItem('user'))
         this.setState({
-            users: [...users]
+            // users: [...users]
+            rows: [...rows]
         })
-        console.log(users)
+        console.log(rows)
         this.nameRef.current.focus()
     }
     
@@ -131,11 +132,11 @@ class Users extends React.Component {
                 var json = JSON.stringify(rows)
                 localStorage.setItem('user', json)
                 // users.push(json)
-                users = JSON.parse(localStorage.getItem('user'))
+                rows = JSON.parse(localStorage.getItem('user'))
                 this.setState({
                     // rows: [...json],
-                    // rows: [...rows],
-                    users: [...users],
+                    rows: [...rows],
+                    // users: [...users],
                     user: newUser
                 })
     
@@ -229,7 +230,7 @@ class Users extends React.Component {
 
             <section style={{ margin: '50px', width: '50%' }}>
                 <h1>User Information</h1>
-                <DataGrid data={this.state.users} >
+                <DataGrid data={this.state.rows} >
                     <GridColumn field="name" title="Name" align="center"></GridColumn>
                     <GridColumn field="email" title="Email" align="center"></GridColumn>
                     <GridColumn field="age" title="Age" align="center"></GridColumn>
