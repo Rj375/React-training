@@ -41,15 +41,11 @@ class Users extends React.Component {
         var { users, rows } = this.state
 
 
-        rows = localStorage.getItem('user')
-        // this.setState({
-        //     users: [users]
-        // })
-        // this.setState({
-        //     rows: [rows]
-        // })
-
-        console.log(rows)
+         users = JSON.parse(localStorage.getItem('user'))
+        this.setState({
+            users: [...users]
+        })
+        console.log(users)
         this.nameRef.current.focus()
     }
     
@@ -98,7 +94,7 @@ class Users extends React.Component {
     }
 
     handleSubmit = (event) => {
-        var { rows, user} = this.state
+        var { rows, user, users} = this.state
 
         var newUser = {
             name: "",
@@ -134,9 +130,12 @@ class Users extends React.Component {
                 rows.push(user)
                 var json = JSON.stringify(rows)
                 localStorage.setItem('user', json)
+                users.push(json)
+                users = JSON.parse(localStorage.getItem('user'))
                 this.setState({
                     // rows: [...json],
-                    rows: [...rows],
+                    // rows: [...rows],
+                    users: [...users],
                     user: newUser
                 })
     
@@ -230,7 +229,7 @@ class Users extends React.Component {
 
             <section style={{ margin: '50px', width: '50%' }}>
                 <h1>User Information</h1>
-                <DataGrid data={this.state.rows} >
+                <DataGrid data={this.state.users} >
                     <GridColumn field="name" title="Name" align="center"></GridColumn>
                     <GridColumn field="email" title="Email" align="center"></GridColumn>
                     <GridColumn field="age" title="Age" align="center"></GridColumn>
