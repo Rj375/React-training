@@ -8,6 +8,8 @@ import Productslist from '../Productslist';
 import Body from '../Body';
 import Forms from '../Forms';
 
+import Login from '../Login';
+
 
 const Router = () => {
     return (
@@ -17,7 +19,8 @@ const Router = () => {
                 <Nav />
                 <Switch>
 
-                    <Route exact path="/" component={Table} />
+                    <Route exact path="/" component={Login} />
+                    
                     <Route path="/api" component={Apidata} />
                     <Route path="/inputs" component={Inputs} />
                     <Route path="/productlist" component={Productslist} />

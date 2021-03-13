@@ -23,7 +23,7 @@ class Nav extends React.Component {
    <div className="Nav">
 
       <Link to="/" >
-        <li>Users</li>
+        <li>Login</li>
       </Link>
       <Link to="/api">
         <li>Api</li>

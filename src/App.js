@@ -10,9 +10,12 @@ import Futable from "./Futable";
 import { axios } from 'axios'
 import Apidata from './Apidata'
 import Users from './Users'
-import Router from './router/Router'
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+// import Router from './router/Router'
+import { Router, Switch, Route } from "react-router-dom";
 import { productLists } from './datas';
+import history from './history';
+import  Login  from './Login';
+
 
 
 const App = () => {
@@ -37,9 +40,12 @@ const App = () => {
 
 
   //   (x == y ? text1 = "this is true" : text1 = "this is false")
+//   var history = useHistory();
 
-
-
+//  const submitMe = () => {
+ 
+//   history.push("/users")
+//  }
 
 
   // const axios = require('axios');
@@ -65,11 +71,13 @@ const App = () => {
     <div className="App">
 
 
-      <BrowserRouter>
+      <Router history={history}>
+
         <Nav />
         <Switch>
 
-          <Route exact path="/" component={Users} />
+          <Route exact path="/" component={Login} />
+          <Route exact path="/users" component={Users} />
           <Route path="/api" component={Apidata} />
           <Route path="/inputs" component={Inputs} />
           <Route path="/productlist" component={Productslist} />
@@ -77,11 +85,11 @@ const App = () => {
           <Route path="/form" component={Forms} />
 
         </Switch>
-      </BrowserRouter>
+      </Router>
 
-
+      
     
-
+    
 
 
 

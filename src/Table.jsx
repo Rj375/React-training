@@ -360,7 +360,7 @@ export default class Table extends Component {
         <ComboBox value={form.name} ref={this.nameRef} className="inputs" onSelectionChange={this.enterUnit} data={getname} onChange={(e) => this.handleChange("name", e)} />
         <ComboBox value={form.unit} ref={this.unitRef} className="inputs" data={getunit} onChange={(e) => this.handleChange("unit", e)} />
         {/* <NumberBox value={form.rate} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} /> */}
-        <TextBox value={form.rate} ref={this.rateRef} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} />
+        <TextBox value={form.rate} onKeyUp={this.enterUnit} ref={this.rateRef} placeholder="Rate" className="inputs" onChange={(e) => this.handleChange("rate", e)} />
         <TextBox value={form.quantity} placeholder="Quantity" className="inputs" onChange={(e) => this.handleChange("quantity", e)} />
         {/* <NumberBox value={form.quantity} placeholder="Quantity" className="inputs" onChange={(e) => this.handleChange("quantity", e)} /> */}
         <NumberBox value={form.amount} placeholder="Total Amount" readOnly spinners={false} className="inputs" onChange={(e) => this.handleChange("amount", e)} />

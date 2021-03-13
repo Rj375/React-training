@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextBox, DataGrid, GridColumn, ComboBox, LinkButton, NumberBox, ButtonGroup, Form, Dialog, Label, FormField, Messager } from 'rc-easyui';
+import { Link, Router  , Redirect,Switch, Route} from "react-router-dom";
 class Users extends React.Component {
     constructor(props) {
         super(props);
@@ -15,20 +16,29 @@ class Users extends React.Component {
                 confirmPass: ""
 
             },
+            loggedIn: true,
 
             rows: [],
             // users: [],
-          
+
 
 
 
             rules: {
-                name: ["required", "length[5,10]"],
+                name: ["required", "length[5,15]"],
                 email: ["required", "email"],
                 age: ["required", "age[18]"],
                 address: "required",
                 contact: "required",
-                password: "password",
+                password: {
+                    required: true,
+                    passValidate:{ validator(value) {
+                        return value.length >= 8
+                    },
+                    message: 'Password must be atleast 8 characters'
+
+                }
+                },
                 confirmPass: 'confirmPass'
 
             }
@@ -36,11 +46,11 @@ class Users extends React.Component {
         this.nameRef = React.createRef()
     }
 
-   
+
     componentDidMount = () => {
         var { users, rows } = this.state
 
-        
+
         rows = JSON.parse(localStorage.getItem('user'))
         this.setState({
             // users: [...users]
@@ -49,11 +59,12 @@ class Users extends React.Component {
         console.log(rows)
         this.nameRef.current.focus()
     }
-    
+
 
 
     getCustomRules = () => {
         var { user } = this.state
+        
         return {
             age: {
                 validator(value, param) {
@@ -68,7 +79,7 @@ class Users extends React.Component {
                 },
                 message: 'Password must be atleast 8 characters'
             },
-
+            
             confirmPass: {
                 validator() {
                     return user.password == user.confirmPass
@@ -80,10 +91,10 @@ class Users extends React.Component {
 
     validateUser() {
         this.messager.alert({
-          title: "Alert",
-          msg: "please fill in all the input fields and complete all the requirements"
+            title: "Alert",
+            msg: "please fill in all the input fields and complete all the requirements"
         });
-      }
+    }
 
     handleChange = (name, value) => {
         var { user } = this.state;
@@ -95,7 +106,7 @@ class Users extends React.Component {
     }
 
     handleSubmit = (event) => {
-        var { rows, user, users} = this.state
+        var { rows, user,  } = this.state
 
         var newUser = {
             name: "",
@@ -106,27 +117,28 @@ class Users extends React.Component {
             password: "",
             confirmPass: ""
         }
-         
-       
-            if(!user.name) {
-                this.validateUser()
-            }else if(!user.email) {
-               this.validateUser()
-            }
-            else if(!user.age && user.age < 18) {
-                this.validateUser()
-            }else if(!user.address) {
-                this.validateUser()
-            }else if(!user.contact) {
-               this.validateUser()
-            }else if(!user.password) {
-               this.validateUser()
-            }else if(user.confirmPass !== user.password) {
-                this.validateUser()
-            }
-            else{
-            this.form.validate(() => {
 
+
+        // if (!user.name) {
+        //     this.validateUser()
+        // } else if (!user.email) {
+        //     this.validateUser()
+        // }
+        // else if (!user.age && user.age < 18) {
+        //     this.validateUser()
+        // } else if (!user.address) {
+        //     this.validateUser()
+        // } else if (!user.contact) {
+        //     this.validateUser()
+        // } else if (!user.password) {
+        //     this.validateUser()
+        // } else if (user.confirmPass !== user.password) {
+        //     this.validateUser()
+        // }
+        // else {
+            this.form.validate((errors) => {
+                
+                console.log(errors)
                 event.preventDefault()
                 rows.push(user)
                 var json = JSON.stringify(rows)
@@ -139,51 +151,21 @@ class Users extends React.Component {
                     // users: [...users],
                     user: newUser
                 })
-    
+
                 this.nameRef.current.focus()
-            }) 
-           }
-           
+            })
+        }
 
-            //      event.preventDefault()
-            //     rows.push(user)
-            //     var json = JSON.stringify(rows)
-            //     localStorage.setItem('user', json) 
+    // }
 
-            //     this.setState({
-            //         // rows: [...json],
-            //         rows: [...rows],
-            //         user: newUser
-            //     })
-            //    users =  localStorage.getItem('user')
-            //    this.setState({
-            //      users: [users]
-            //    })
-            //    console.log(users)
-            //     this.nameRef.current.focus()
-
-
-
-
-
-
-
-
-       
-
-
-
-
-
-
-
-
-
-
-    }
 
     render() {
-        var { user, rules } = this.state
+       
+
+        var { user, rules, loggedIn } = this.state
+        if(!loggedIn){
+            return <Redirect to="/" />
+        }
         return <div className="users" style={{ display: 'flex' }}>
             <section style={{ margin: '50px', width: '30%', border: '1px solid skyblue', padding: '10px' }}>
                 <h1>User Registration</h1>
@@ -238,6 +220,8 @@ class Users extends React.Component {
                     <GridColumn field="contact" title="Contact" align="center" ></GridColumn>
                     {/* <GridColumn field="password" title="password" align="center"></GridColumn>
                     <GridColumn field="confirmPass" title="ConfirmPass" align="center"></GridColumn> */}
+
+
                 </DataGrid>
             </section>
             <Messager ref={ref => this.messager = ref}></Messager>
