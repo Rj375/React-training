@@ -45,6 +45,7 @@ app.post("/login", (req, res) => {
    if(username === "ram" && password=== "123" ) {
     const users = {
         username,
+       
         age: 24
     }
     //  asign users object in jwt.sign also use SECRETKEY

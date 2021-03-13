@@ -3,7 +3,7 @@ import { TextBox, Form, FormField, LinkButton } from 'rc-easyui';
 import Users from './Users'
 import { Link, Router  , Redirect,Switch, Route} from "react-router-dom";
 import history from './history';
-import axios from "axios";
+import Axios from "axios";
 import Cookies from "js-cookie";
 
 
@@ -43,9 +43,9 @@ class Login extends React.Component {
    
     
     submit = async(event) => {
-        var {users} = this.state
+        var {username , password} = this.state.users
         event.preventDefault();
-        // users = users.json()
+        
         // if(!users.username){
         //     alert('need username')
         // }else if(!users.password) {
@@ -56,16 +56,17 @@ class Login extends React.Component {
              
         // }
         try{
-            var token = await axios.post("http://localhost:8080/login", {users})
-           
-            localStorage.setItem("token", token)
+            var token = await Axios.post("http://localhost:8080/login", {username , password})
+            
+            var tok = JSON.stringify(token)
+            localStorage.setItem("token", tok)
             this.setState({
                 loggedIn: true
             })
         }
         catch(err){
             this.setState({
-                err: err.message
+                err: `${err.message} Invalid username or Password`
             })
         }
         
